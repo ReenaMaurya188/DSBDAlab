@@ -1,0 +1,136 @@
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+sns.set_style('darkgrid')
+
+#LOAD DATASET
+df=pd.read_csv('forestfires.csv')
+df
+
+#DISPLAY THE FIRST FEW ROWSabs
+df.head(20)
+
+feature_names = df.columns
+feature_names
+
+#DATA PRIPRATION AND CLEANING..
+df.info()
+
+df.describe(include=['O'])
+
+# Lets create an variable and store its column name
+categorical_feature = df.describe(include=['O']).columns
+# Print it in list type ...
+print(list(categorical_feature))
+
+df['month'].value_counts()
+df.describe(include=["int", "float"])
+
+numerical_feature = df.describe(include=["int", "float"]).columns
+# Print it in list type ..
+print(list(numerical_feature))
+
+df['area_km'] = df['area'] / 100
+df
+df.sort_values(by="area_km", ascending=False).head()
+
+ highest_fire_area = df.sort_values(by="area_km", ascending=True)
+plt.figure(figsize=(8, 6))
+plt.title("Temperature vs area of fire" )
+plt.bar(highest_fire_area['temp'], highest_fire_area['area_km'])
+plt.xlabel("Temperature")
+plt.ylabel("Area per km-sq")
+plt.show()
+
+print(categorical_feature)
+plt.figure(figsize=(10, 5))
+for idx, column in enumerate(categorical_feature):
+ df = df.copy()
+ unique = df[column].value_counts(ascending=True);
+ plt.subplot(1, 2, idx+1)
+ plt.title("Count of "+ column)
+ plt.bar(unique.index, unique.values);
+
+ plt.xlabel(column)
+ plt.ylabel("Number of "+ column)
+
+plt.tight_layout()
+plt.show() 
+
+###PairPloat Relation
+len(numerical_feature)
+# forest_df[numerical_feature]
+df[categorical_feature]
+
+sns.set_style('darkgrid')
+# Find the relation
+# plt.subplot(forest_df)
+sns.pairplot(df[["temp", "wind", "rain", "area_km"]])
+plt.show()
+
+
+for idx, col in enumerate(numerical_feature, 1):
+ plt.figure(figsize=(5,5))
+
+# plt.subplot(len(numerical_feature) // 2, 3, idx)
+ plt.boxplot(df[col])
+ plt.title(col)
+# plt.hist(forest_df[col])
+plt.tight_layout()
+plt.show(plt)
+
+
+### HEAT MAP ###
+plt.figure(figsize=(15, 12))
+plt.title("Heatmap Relation")
+sns.heatmap(df[numerical_feature].corr(), annot=True, fmt='.2f');
+
+### What is the highest rain and give the month and days. ###
+highest_rain =df.sort_values(by='rain', ascending=False)[['month', 'day', 'rain']].head(
+highest_rain
+
+##### Give the highest and lowest temperature in month and day wise. ####
+highest_temp = df.sort_values(by='temp', ascending=False)[['month', 'day', 'temp']].head()
+lowest_temp = df.sort_values(by='temp', ascending=True)[['month', 'day', 'temp']].head()
+print("Highest Temperature")
+print(highest_temp)
+print()
+print()
+print("Lowest Temperature")
+print(lowest_temp)
+
+plt.figure(figsize=(9, 6))
+plt.title("Highest Temperature in Aug. Month")
+plt.bar(highest_temp['day'], highest_temp['temp'])
+plt.xlabel("Day")
+plt.xlabel("Aug. Month")
+plt.ylabel("Temperature")
+plt.show()
+
+plt.figure(figsize=(9, 6))
+plt.title("Lowest Temperature in Dec. and Feb. Month")
+plt.bar(lowest_temp['day'], lowest_temp['temp'])
+plt.xlabel("Day")
+plt.xlabel("Dec. and Feb. Month")
+plt.ylabel("Temperature")
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

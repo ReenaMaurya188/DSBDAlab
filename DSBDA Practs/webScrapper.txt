@@ -1,0 +1,36 @@
+import requests
+import bs4
+
+req1=requests.get("https://www.flipkart.com/realme-10-pro-5g-dark-matter-128-gb/p/itm1e672d12a252e?pid=MOBGK8VHZGEEGXFR&lid=LSTMOBGK8VHZGEEGXFRIWIE6H&marketplace=FLIPKART&q=realme+10+pro+5g&store=tyy%2F4io&srno=s_1_2&otracker=AS_Query_HistoryAutoSuggest_3_0&otracker1=AS_Query_HistoryAutoSuggest_3_0&fm=search-autosuggest&iid=e7200765-5ded-43a4-992a-f86570322c7c.MOBGK8VHZGEEGXFR.SEARCH&ppt=sp&ppn=sp&ssid=q2xeyy5n280000001685460664722&qH=aa56673d74f40513")
+
+req1
+
+req1.content
+
+comment=mobile.find_all('div',{'class':'row'})
+for com in comment:
+    print(com.get_text())
+
+review=mobile.find_all('div',{'class':'col-12-12'})
+for rev in review:
+    print(rev.get_text())
+
+rating=mobile.find_all('div',{'class':'col-12-12 _1azcI6'})
+for rat in rating:
+    print(rat.get_text())
+
+
+indi_rat=mobile.find_all('div',{'class':'_3LWZlK _1BLPMq'});
+for ini in indi_rat:
+    print(ini.get_text())
+
+coname=mobile.find_all('p',{'class':'_2sc7ZR _2V5EHH'});
+for con in coname:
+    print(con.get_text())
+
+
+
+
+
+
+

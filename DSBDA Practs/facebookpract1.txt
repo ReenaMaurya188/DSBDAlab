@@ -1,0 +1,33 @@
+import pandas as pd
+import numpy as np
+
+df=pd.read_csv('dataset_Facebook.csv', sep=";")
+df
+
+#discribing the dataset---------
+df.describe()
+
+df.shape
+df1 = df[['Page total likes' , 'Category' , 'Post Month' ]].loc[0:12]
+df1
+
+df2 = df[['Post Weekday' , 'Post Hour' , 'Paid' ]].loc[0:15]
+df2
+
+mearg = pd.concat([df1,df2])
+mearg
+
+sortdata=df.sort_values('Category',ascending=False)
+sortdata
+
+trans=df.transpose()
+trans
+shap=df.shape
+shap
+
+reshap=pd.pivot_table(df,index=['Type','Category'] , values= 'share')
+print(reshap)
+
+
+
+

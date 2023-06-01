@@ -1,0 +1,73 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df=pd.read_csv('AirQualityodisha.csv')
+df
+df.head()
+df.info()
+
+df.replace(to_replace=-200,value=np.nan,inplace=True)
+df.info()
+
+df.drop(['PM 2.5','RSPM/PM10'],axis = 1,inplace = True)
+df.info()
+
+df.drop('Agency', axis=1, inplace=True) #deleterd due to null value
+df.info()
+
+#------------DATA INTEGRATION-------------#
+
+sns.set_theme(style="whitegrid")
+df.shape
+
+Q1 = df.quantile(0.25) #first 25% of the data
+Q3 = df.quantile(0.75) #first 75% of the data
+IQR = Q3 - Q1 #IQR = InterQuartile Range
+scale = 2 #For Normal Distributions, scale = 1.5
+lower_lim = Q1 - scale*IQR
+upper_lim = Q3 + scale*IQR
+lower_outliers = (df[df.columns[2:13]] < lower_lim)
+upper_outliers = (df[df.columns[2:13]] > upper_lim)
+
+df[df.columns[2:13]][(lower_outliers | upper_outliers)].info()
+
+#----------------DATA TRANSFORMATION----------------#
+
+sns.barplot(x='NO2',y='SO2', data=df.sort_values('NO2'))
+plt.title('Mean Hourly Values of CO on Wednesdays')
+plt.xticks(rotation=90)
+plt.show()
+
+sns.heatmap(df.corr(),annot=True,cmap = 'coolwarm')
+plt.title('Correlation Matrix')
+plt.show()
+
+sns.pairplot(df)
+plt.show()
+
+#-----------------Model BULIDING------------------#
+
+df.drop('Location of Monitoring Station', axis=1, inplace=True)
+
+from sklearn.model_selection import train_test_split
+Y = df['NO2'] #variável de predição
+X = df.drop(['State','City'], axis=1)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random=4 )
+print(X_train.shape, X_test.shape)
+
+sns.pairplot(df, hue='Season')
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+

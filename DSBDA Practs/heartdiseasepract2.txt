@@ -1,0 +1,215 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+
+df = pd.read_csv("Heart.csv")
+df
+
+df.info()
+
+df['sex'] = df['sex'].astype(' object')
+df['cp'] = df['cp'].astype( 'object')
+df['fbs'] = df['fbs'].astype(' object')
+df['restecg'] = df['restecg'].astype( 'object')
+
+df['exang'] = df['exang'].astype( 'object')
+df['slope'] = df['slope’'].astype( 'object')
+df['ca'] = df['ca'].astype( 'object')
+
+df['thal'] = df['thal'].astype( 'object')
+
+df.dtypes
+
+df.isnull().sum()
+df['target’'] = df.target.replace({1: "Disease", 0: "No_disease"})
+
+df['sex'] = df.sex.replace({1: "Male", 0: "Female"})
+
+df['cp'] = df.cp.replace({0: "typical _angina",1l: "atypical _angina",2:"non-anginal"})
+df['exang'] = df.exang.replace({1: "Yes", 0: "No"})
+
+df['fbs'] = df.fbs.replace({1: "True", 0: "False"})
+
+df['slope'] = df.slope.replace({0: "upsloping", 1:"flat",2:"downsloping"})
+
+df['thal'] = df.thal.replace({1: "fixed_defect", 2: "reversable_defect”,3: "normal"})
+
+bxplt = sns.boxplot(df['target’],df['chol'])
+plt.show
+
+sns.boxplot(x="target",y="oldpeak", data=df)
+
+
+continous_features = ['age', 'trestbps', ‘chol’, "thalach’,'oldpeak’]
+
+
+def outliers(df_out, drop = False):
+
+	for
+
+		each_feature in df _out.columns:
+
+		feature_data = df_out[each_feature]
+
+		Q1 = np.percentile(feature_data, 25.)
+
+		Q3 = np.percentile(feature_data, 75.)
+
+		IQR = Q3-Q1
+
+		outlier step = IQR * 1.5
+
+		outliers = feature_data[~((feature_data >= Q1 - outlier step) & (feature,  ----error
+
+		if not drop:
+
+			print('For the feature {}, No of Outliers is {}'.format(each_feature, ---ERROR
+		if drop:
+
+			df.drop(outliers, inplace = True, errors = 'ignore')
+
+			print('Outliers from {} feature removed'.format(each_feature))
+
+outliers(df[continous_features])
+
+outliers(df[continous_features],drop=True)
+
+duplicated=df.duplicated().sum()
+
+duplicated
+
+
+
+if duplicated:
+	print("Duplicated rows :{}".format(duplicated))
+
+else:
+
+	print("No duplicates")
+
+
+
+duplicates=df[df.duplicated(keep=False)]
+duplicates.head()
+
+df.drop_duplicates()
+
+duplicates.head()
+
+df.drop_duplicates()
+
+duplicated=df.duplicated().sum()
+
+duplicated
+
+
+
+df1 = pd.read_csv("student.csv", header= 0)
+
+df2=pd.read_csv("mark.csv", header =0)
+
+df1.info()
+
+ df2.info()
+
+dfl.head()
+
+df2.head()
+
+df = pd.merge(df1, df2, on = 'Student_id")
+df.head(10)
+
+df = pd.read_csv("Heart.csv")
+df
+
+ddf =pd.read_csv("data.csv",encoding="cp1252")
+
+ddf.head()
+
+ddf=ddf.drop(['stn_code', agency’, 'sampling_date', 'location_monitoring_station’])
+
+ddf=ddf.dropna(subset=['date’])
+
+ COLS = ['so2', 'no2', 'rspm', 'spm', 'pm2_5']
+from sklearn.impute import SimpleImputer
+imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+ddf[COLS] = imputer.fit_transform(ddf[COLS])
+
+ddf[COLS]
+
+ddf[ 'type'].value_counts()
+
+ddf[' type']
+
+ddf[ 'state'].value_counts()
+
+from sklearn.preprocessing import LabelEncoder
+labelencoder=LabelEncoder()
+ddf[ "state" ]=1abelencoder.fit_transform(ddf["state"])
+
+ddf.head(5)
+
+dfAndhra=ddf[(ddf['state']==0)]
+dfAndhra
+
+dfAndhra['location’].value_counts()
+
+dfAndhra=ddf[(ddf['state']==0)]
+dfAndhra
+
+dfAndhra['location’].value_counts()
+
+
+from sklearn.preprocessing import OneHotEncoder
+onehotencoder=OneHotEncoder(sparse=False, handle_unknown='error',drop="'first")
+pd.DataFrame(onehotencoder.fit_transform(dfAndhra[["location"]]))
+
+df['ca’'].unique()
+
+df[df['ca’']==4]
+
+df.loc[df['ca’']==4, 'ca']=np.NaN
+
+df['thal’].nunique()
+df['thal'].unique()
+
+df[df[ thal']==3]
+
+df.loc[df['thal']==3, 'thal’]=np.NaN
+
+df.isna().sum()
+
+df = df.fillna(df.median())
+df.isnull().sum()
+
+X = df.drop('target', axis=1)
+
+ X.head()
+
+ X.shape
+
+ y = df['target’']
+y.head(10)
+
+from sklearn import preprocessing
+df=df.apply(preprocessing.LabelEncoder().fit_transform)
+
+In [77]: from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,random_state = 3)
+
+
+print ("X_train :"X_train.shape)
+print ("X_test :",X_test.shape)
+print("y_train :", y_train.shape)
+print("y_test :",y_test.shape)
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import metrics
+
+clf = DecisionTreeClassifier()
+clf = clf.fit(X_train, y_ train)
+y_pred = clf.predict(X_test)
+print(y_pred)
+
